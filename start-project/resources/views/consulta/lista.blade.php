@@ -7,6 +7,14 @@
     <title>Consultas agendadas</title>
 </head>
 <body>
+
+    <hr>
+    <ul>
+        <li>POKE</li>
+        <li>POKE</li>
+        <li>POKE</li>
+
+    </ul>
     <h1 style= "color: blue">Lista de consultas agendadas</h1>
     <hr>
     <a href="{{route('consulta.agendar')}}">Agendar</a>
