@@ -17,6 +17,11 @@ class EixoController extends Controller
     }
 
     public function store(Request $request){
-        return $request;
+        $eixo = new Eixo();
+        $eixo->name = $request->name;
+        $eixo->description = $request->description;
+        $eixo->save();
+
+        return redirect()->route('eixo.index');
     }
 }
