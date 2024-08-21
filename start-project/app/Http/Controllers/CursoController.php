@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Eixo;
 
-class EixoController extends Controller
+class CursoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +13,7 @@ class EixoController extends Controller
      */
     public function index()
     {
-        $data = Eixo::with('curso')->get();
-        return view('eixo.index', compact(['data']));
+        //
     }
 
     /**
@@ -25,7 +23,7 @@ class EixoController extends Controller
      */
     public function create()
     {
-        return view('eixo.create');
+        //
     }
 
     /**
@@ -36,12 +34,7 @@ class EixoController extends Controller
      */
     public function store(Request $request)
     {
-        $eixo = new Eixo();
-        $eixo->name = $request->name;
-        $eixo->description = $request->description;
-        $eixo->save();
-
-        return redirect()->route('eixo.index');
+        //
     }
 
     /**
@@ -50,15 +43,9 @@ class EixoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
-
-        $eixo = Eixo::find($id);
-    
-        if(isset($eixo)){
-            return view('eixo.show', compact('eixo'));
-        }
-
-        return "<h1>EIXO NÃO ENCONTRADO</h1>";
+    public function show($id)
+    {
+        //
     }
 
     /**
@@ -69,13 +56,7 @@ class EixoController extends Controller
      */
     public function edit($id)
     {
-        $eixo = Eixo::find($id);
-
-        if(isset($eixo)){
-            return view('eixo.edit', compact('eixo'));
-        }
-
-        return "<h1>EIXO NÃO ENCONTRADO</h1>";
+        //
     }
 
     /**
@@ -87,14 +68,7 @@ class EixoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $eixo = Eixo::find($id);
-
-        if(isset($eixo)){
-            $eixo->name = $request->name;
-            $eixo->description = $request->description;
-            $eixo->save();
-            return redirect()->route('eixo.index');
-        }
+        //
     }
 
     /**
@@ -106,11 +80,5 @@ class EixoController extends Controller
     public function destroy($id)
     {
         //
-        $eixo = Eixo::find($id);
-        if(isset($eixo)){
-            $eixo->delete();
-            return redirect()->route('eixo.index');
-        }
-        return"<h1>EIXO NÃO ENCONTRADO</h1>";
     }
 }
