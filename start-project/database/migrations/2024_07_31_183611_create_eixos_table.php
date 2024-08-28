@@ -16,6 +16,7 @@ class CreateEixosTable extends Migration
         Schema::create('eixos', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
+            $table->string('path');
             $table->text('description');
             $table->timestamps();
         });

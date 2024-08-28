@@ -28,7 +28,7 @@
                         <a class="nav-link" aria-current="page" href="{{route('eixo.index')}}">Eixos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cursos</a>
+                        <a class="nav-link" href="{{route('curso.index')}}">Cursos</a>
                     </li>
                 </ul>
             </div>

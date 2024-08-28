@@ -10,6 +10,6 @@ class Curso extends Model
     use HasFactory;
 
     public function eixo(){
-        return $this->belogsTo('App\Models\Eixo');
+        return $this->belongsTo('App\Models\Eixo');
     }
 }

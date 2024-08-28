@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Curso;
+use App\Models\Eixo;
 class CursoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        //
+        $data = Curso::with(['eixo'])->get();
+        return view('curso.index', compact('data'));
     }
 
     /**
@@ -23,7 +21,8 @@ class CursoController extends Controller
      */
     public function create()
     {
-        //
+        $eixos = Eixo::orderBy('name')->get();
+        return view('curso.create', compact('eixos'));
     }
 
     /**
@@ -32,9 +31,20 @@ class CursoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+        $eixo = Eixo::find($request->eixo);
+
+        if(isset ($eixo)){
+            $curso = new Curso();
+            $curso->name = mb_strtoupper($request->name, "UTF-8");
+            $curso->abreviatura = mb_strtoupper($request->abreviatura, "UTF-8");
+            $curso->duracao = $request->duracao;
+            $curso->eixo()->associate($eixo);
+            $curso->save();
+
+            return redirect()->route('curso.index');
+        }
+        return "<h1>Eixo não encontrado</h1>";
     }
 
     /**
@@ -54,9 +64,13 @@ class CursoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($id){
+        $curso = Curso::find($id);
+        $eixos = Eixo::orderBy('name')->get();
+
+        if(isset($curso)) {
+            return view('curso.edit', compact(['curso', 'eixos']));
+        }
     }
 
     /**
@@ -68,7 +82,19 @@ class CursoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $curso = Curso::find($id);
+        $eixo = Eixo::find($request->eixo);
+
+        if(isset ($eixo) && isset($curso)){
+            $curso->name = mb_strtoupper($request->name, "UTF-8");
+            $curso->abreviatura = mb_strtoupper($request->abreviatura, "UTF-8");
+            $curso->duracao = $request->duracao;
+            $curso->eixo()->associate($eixo);
+            $curso->save();
+
+            return redirect()->route('curso.index');
+        }
+        return "<h1>Eixo não encontrado</h1>";
     }
 
     /**

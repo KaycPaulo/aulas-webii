@@ -36,12 +36,20 @@ class EixoController extends Controller
      */
     public function store(Request $request)
     {
-        $eixo = new Eixo();
-        $eixo->name = $request->name;
-        $eixo->description = $request->description;
-        $eixo->save();
 
-        return redirect()->route('eixo.index');
+        if($request->hasFile('foto')) {
+            
+            $eixo = new Eixo();
+            $eixo->name = $request->name;
+            $eixo->description = $request->description;
+            $eixo->save();
+            $ext = $request->file('foto')->getClientOriginalExtension();
+            $nome_arq = $eixo->id . "_" . time() . "." . $ext; 
+            $request->file('foto')->storeAs("public/", $nome_arq);
+            $eixo->path = $nome_arq;
+            $eixo->save();
+            return redirect()->route('eixo.index');
+        }
     }
 
     /**
