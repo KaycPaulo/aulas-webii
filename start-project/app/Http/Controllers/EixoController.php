@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Eixo;
+use Dompdf\Dompdf;
+use App\Models\Curso;
+
 
 class EixoController extends Controller
 {
@@ -37,19 +40,19 @@ class EixoController extends Controller
     public function store(Request $request)
     {
 
-        if($request->hasFile('foto')) {
-            
-            $eixo = new Eixo();
-            $eixo->name = $request->name;
-            $eixo->description = $request->description;
-            $eixo->save();
-            $ext = $request->file('foto')->getClientOriginalExtension();
-            $nome_arq = $eixo->id . "_" . time() . "." . $ext; 
-            $request->file('foto')->storeAs("public/", $nome_arq);
-            $eixo->path = $nome_arq;
-            $eixo->save();
-            return redirect()->route('eixo.index');
-        }
+        //if($request->hasFile('foto')) {=
+
+        $eixo = new Eixo();
+        $eixo->name = $request->name;
+        $eixo->description = $request->description;
+        $eixo->save();
+        // $ext = $request->file('foto')->getClientOriginalExtension();
+        // $nome_arq = $eixo->id . "_" . time() . "." . $ext; 
+        // $request->file('foto')->storeAs("public/", $nome_arq);
+        // $eixo->path = $nome_arq;
+        // $eixo->save();
+        return redirect()->route('eixo.index');
+        //}
     }
 
     /**
@@ -58,11 +61,12 @@ class EixoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
+    public function show($id)
+    {
 
         $eixo = Eixo::find($id);
-    
-        if(isset($eixo)){
+
+        if (isset($eixo)) {
             return view('eixo.show', compact('eixo'));
         }
 
@@ -79,7 +83,7 @@ class EixoController extends Controller
     {
         $eixo = Eixo::find($id);
 
-        if(isset($eixo)){
+        if (isset($eixo)) {
             return view('eixo.edit', compact('eixo'));
         }
 
@@ -97,7 +101,7 @@ class EixoController extends Controller
     {
         $eixo = Eixo::find($id);
 
-        if(isset($eixo)){
+        if (isset($eixo)) {
             $eixo->name = $request->name;
             $eixo->description = $request->description;
             $eixo->save();
@@ -113,12 +117,26 @@ class EixoController extends Controller
      */
     public function destroy($id)
     {
-        //
         $eixo = Eixo::find($id);
-        if(isset($eixo)){
+        if (isset($eixo)) {
             $eixo->delete();
             return redirect()->route('eixo.index');
         }
-        return"<h1>EIXO NÃO ENCONTRADO</h1>";
+        return "<h1>EIXO NÃO ENCONTRADO</h1>";
+    }
+
+    public function report($id)
+    {
+        $cursos = Curso::where('eixo_id', $id)->get();
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('eixo.report', compact('cursos'))); 
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream("relatorio-horas-turma.pdf", array("Attachment" => false));
+    }
+
+    public function graph() {
+        
     }
 }

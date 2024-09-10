@@ -10,7 +10,8 @@
     <label class="mt-3">Duração(anos)</label>
     <input type="number"name="time" class="form-control mt-1">
     <label class="mt-3">Eixo</label>
-    <select name="eixo" class="form-control">
+    <label name='class'>Classifição da Especie</label>
+    <select name="eixo" class="form-control mt-2">
         <option selected disabled></option>
         @foreach($eixos as $item)
         <option value="{{$item->id}}">{{$item->name}}</option>

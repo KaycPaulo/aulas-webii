@@ -20,6 +20,7 @@ class CreateCursosTable extends Migration
             $table->integer('duracao')->nullable();
             $table->unsignedBigInteger('eixo_id');
             $table->foreign('eixo_id')->references('id')->on('eixos');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
